@@ -1,0 +1,33 @@
+﻿@model Book_Tracker.Models.Book
+<div class="container">
+    <h1>Редактировать книгу</h1>
+    <!-- Форма для редактирования книги, данные автоматически заполнятся из модели -->
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" /> <!-- Скрытое поле для ID книги -->
+
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Author"></label>
+            <input asp-for="Author" class="form-control" />
+            <span asp-validation-for="Author" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="IsRead"></label>
+            <select asp-for="IsRead" class="form-control">
+                <option value="true">Да</option>
+                <option value="false">Нет</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <h1></h1>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>

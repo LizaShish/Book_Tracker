@@ -1,0 +1,138 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+html, body {
+    height: 100%; /* Задает полную высоту страницы */
+    margin: 0;
+}
+
+/* Основные настройки фона и шрифта для всего сайта */
+body {
+    background-color: #f7f7f7; /* Светло-серый фон для современного вида */
+    font-family: 'Arial', sans-serif;
+    color: #333; /* Текст темного цвета для контраста */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Минимальная высота - 100% от высоты экрана */
+}
+
+/* Стиль заголовков */
+h1, h2, h3, h4 {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: bold;
+    color: #2c3e50; /* Глубокий синий цвет для заголовков */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Стиль кнопок */
+.btn-primary {
+    background-color: #3498db; /* Ярко-синий */
+    border: none;
+    border-radius: 50px; /* Закругленные кнопки для более мягкого вида */
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+    .btn-primary:hover {
+        background-color: #2980b9; /* Более темный оттенок синего при наведении */
+    }
+
+/* Форма */
+.form-control {
+    border-radius: 10px; /* Закругленные поля ввода */
+    padding: 10px;
+    font-size: 16px;
+    border:no;
+}
+
+    .form-control:focus {
+        border-color: #3498db; /* Подсветка при фокусе */
+        box-shadow: none; /* Убираем тени */
+    }
+
+/* Панель навигации */
+.navbar {
+    background-color: #2c3e50;
+    border-bottom: 3px solid #3498db;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    color: #ecf0f1;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: #ecf0f1;
+    font-size: 18px;
+    margin-right: 20px;
+}
+
+    .navbar-nav .nav-link:hover {
+        color: #3498db;
+    }
+
+/* Футер */
+footer {
+    background-color: #2c3e50;
+    padding: 20px;
+    color: #ecf0f1;
+    text-align: center;
+}
+
+    footer a {
+        background-color: #2c3e50; /* Цвет фона футера */
+        color: #fff; /* Цвет текста футера */
+        text-align: center;
+        padding: 10px 0;
+        position: relative; /* Снимаем фиксированное позиционирование */
+        bottom: 0;
+        width: 100%;
+        
+    }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+main {
+    flex: 1; /* Занимает все доступное пространство между хедером и футером */
+}
+
+.btn-warning {
+    background-color: #f39c12; /* Оранжевый цвет кнопки */
+    color: #fff;
+    border-radius: 25px; /* Закругляем края */
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-warning:hover {
+        background-color: #e67e22; /* Темный оттенок оранжевого при наведении */
+    }
+
+i.fas.fa-heart, i.fas.fa-heart-broken {
+    margin-right: 5px; /* Добавляем отступ для иконки */
+}
+.d-flex > .btn {
+    margin-right: 10px; /* Добавляем небольшой отступ между кнопками */
+}

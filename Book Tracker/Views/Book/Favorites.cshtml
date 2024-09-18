@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Book_Tracker.Models.Book>
+
+    <h2>Избранные книги</h2>
+
+    <table class="table"
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Автор</th>
+               <th>Прочитано</th>
+               <th></th>
+            </tr>
+        </thead>
+         <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                        <td>@item.Title</td>
+                        <td>@item.Author</td>
+                        <td>@item.IsRead</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary me-3">Редактировать</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary me-3 ">Удалить</a>
+                            <a asp-action="MarkAsFavorite" asp-route-id="@item.Id" class="btn btn-warning">
+                            Убрать из избранного
+                            </a>
+                        </td>
+                </tr>
+            }
+         </tbody>
+    </table>
