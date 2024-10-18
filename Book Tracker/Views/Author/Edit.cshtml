@@ -1,0 +1,20 @@
+﻿@model Book_Tracker.Models.EditAuthorDTO
+<div class="container">
+    <h1>Редактировать автора</h1>
+    <!-- Форма для редактирования автора, данные автоматически заполнятся из модели -->
+    <form asp-action="Edit">
+         <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="BirthDate">Дата рождения</label>
+            <input asp-for="BirthDate" type="date" class="form-control" />
+            <span asp-validation-for="BirthDate" class="text-danger"></span>
+        </div>
+        
+        <h1></h1>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>

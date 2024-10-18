@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=9; IE=10; IE=11; IE=EDGE"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=0.9">
+        <link rel="shortcut icon" href="/static/icons/shortcut-icon.ico" type="image/x-icon"/>
+        <link rel="apple-touch-icon" sizes="57x57" href="/static/icons/apple-touch-icon-57x57.png"/>
+        <link rel="apple-touch-icon" sizes="60x60" href="/static/icons/apple-touch-icon-60x60.png"/>
+        <link rel="apple-touch-icon" sizes="72x72" href="/static/icons/apple-touch-icon-72x72.png"/>
+        <link rel="apple-touch-icon" sizes="76x76" href="/static/icons/apple-touch-icon-76x76.png"/>
+        <link rel="apple-touch-icon" sizes="114x114" href="/static/icons/apple-touch-icon-114x114.png"/>
+        <link rel="apple-touch-icon" sizes="120x120" href="/static/icons/apple-touch-icon-120x120.png"/>
+        <link rel="apple-touch-icon" sizes="144x144" href="/static/icons/apple-touch-icon-144x144.png"/>
+        <link rel="apple-touch-icon" sizes="152x152" href="/static/icons/apple-touch-icon-152x152.png"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon-180x180.png"/>
+        <link rel="icon" type="image/png" href="/static/icons/icon-16x16.png" sizes="16x16"/>
+        <link rel="icon" type="image/png" href="/static/icons/icon-32x32.png" sizes="32x32"/>
+        <link rel="icon" type="image/png" href="/static/icons/icon-96x96.png" sizes="96x96"/>
+        <link rel="icon" type="image/png" href="/static/icons/icon-192x192.png" sizes="192x192"/>
+        <meta name="msapplication-square70x70logo" content="/static/icons/msapplication-square70x70logo.png"/>
+        <meta name="msapplication-square150x150logo" content="/static/icons/msapplication-square150x150logo.png"/>
+        <meta name="msapplication-square310x310logo" content="/static/icons/msapplication-square310x310logo.png"/>
+            <link rel="stylesheet" type="text/css" href="/fonts/open-sans/css/all.css?ver=1.3.0"/>
+            <link rel="stylesheet" type="text/css" href="/fonts/pf-din/css/all.css?ver=1.3.0"/>
+            <link rel="stylesheet" type="text/css" href="/fonts/bi/css/all.css?ver=1.3.0"/>
+            <link rel="stylesheet" type="text/css" href="css/bootstrap.css?ver=2.10.20"/>
+            <link rel="stylesheet" type="text/css" href="/static/bootstrap/plugins/datepicker/css/bootstrap-datepicker3.standalone.min.css?ver=4.40.38"/>
+            <link rel="stylesheet" type="text/css" href="css/gr2-commons.css?ver=2.10.20"/>
+            <link rel="stylesheet" type="text/css" href="css/gr2-buttons.css?ver=2.10.20"/>
+            <link rel="stylesheet" type="text/css" href="css/gr2-tabs.css?ver=2.10.20"/>
+            <link rel="stylesheet" type="text/css" href="css/gr2-width.css?ver=2.10.20"/>
+            <link rel="stylesheet" type="text/css" href="css/gr2-qa.css?ver=2.10.20"/>
+            <link rel="stylesheet" type="text/css" href="css/gr2-pagination.css?ver=2.10.20"/>
+            <link rel="stylesheet" type="text/css" href="css/gr2-loading.css?ver=2.10.20"/>
+            <link rel="stylesheet" type="text/css" href="css/gr2-collapse.css?ver=2.10.20"/>
+            <link rel="stylesheet" type="text/css" href="css/gr2-page.css?ver=2.10.20"/>
+            <script type="text/javascript" src="/static/js/jquery-3.5.1.min.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/js/js.cookie.min.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/js/jquery.mask.min.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/js/jquery.inputmask.min.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/bootstrap/bootstrap-4.6.0/js/bootstrap.bundle.min.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/bootstrap/plugins/datepicker/js/bootstrap-datepicker.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/bootstrap/plugins/datepicker/locales/bootstrap-datepicker.ru.min.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/js/jquery.ba-hashchange.min.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/js/uni-hashchange.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3String.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3BlockUI.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3Alert.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3Field.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3Form.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3TextEdit.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3DateEdit.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3DropDown.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3DropDownEx.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3Combo.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3FileUpload.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3Confirm.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3ConfirmEx.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3Tree.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/u3/js/jquery.u3PageScroller.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="/static/js/uni-dialogs.js?ver=4.40.38"></script>
+            <script type="text/javascript" src="js/gr2-commons.js?ver=2.10.20"></script>
+            <script type="text/javascript" src="js/gr2-qa.js?ver=2.10.20"></script>
+            <script type="text/javascript" src="js/gr2-collapse.js?ver=2.10.20"></script>
+            <script type="text/javascript" src="js/gr2-page.js?ver=2.10.20"></script>
+            <script type="text/javascript" src="js/sign-in.js?ver=2.10.20"></script>
+            <script type="text/javascript" src="js/sign-in_email.js?ver=2.10.20"></script>
+        <title>Государственная онлайн-регистрация бизнеса</title>
+        <script type="text/javascript">
+            function i18n(s) { return s; }
+            var SERVER_TIME = new Date(1713252393444);
+            var STATIC_VERSION = '4.40.38';
+            var APPLICATION_VERSION = '2.10.20';
+            var RTKOMM_PAGE_STYLE = 'CUSTOM';
+            
+            var UNI_I18N_LANG = 'RUS';
+            var APP_PATH = '/gosreg';
+            var FEEDBACK_CODE = '84';
+            
+        </script>
+    </head>
+    <body>
+        
+    
+
+
+
+<script type="text/javascript">
+    var SELECTED_MENU_ITEM = 'mnuSignIn';
+</script>
+<header>
+    <div class="gr2-topbar">
+        <div class="container d-flex justify-content-between">
+            <a class="align-items-center" href="https://www.nalog.gov.ru/"><i class="bi bi-arrow-left mr-2"></i><span
+                    class="gr2-topbar-text">На сайт ФНС России</span></a>
+            <a class="open-mobile-menu d-lg-none" href="#"><i class="bi bi-list"></i></a>
+        </div>
+    </div>
+    <div class="container my-3">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-8 mb-3 mb-md-0">
+                <a href="index.html" class="d-flex align-items-center lnk-page-title">
+                    <img class="img-fluid" src="i/fns-logo-footer.svg">
+                    <div class="page-title">Государственная онлайн-регистрация бизнеса</div>
+                </a>
+            </div>
+            <div class="col-12 col-md-4 text-center text-md-right d-none d-md-block enter-button">
+                <a class="btn btn-primary btn-sign-in" href="sign-in.html" type="button">Войти</a>
+            </div>
+        </div>
+    </div>
+    <nav class="d-none d-lg-block bg-grey">
+        <div class="container">
+            <ul class="gr2-nav-top-menu" id="topMenu">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="mnuIndex_ip" role="button" data-toggle="dropdown"
+                       aria-expanded="false">Индивидуальные предприниматели</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="fw-bolder dropdown-item" href="index.html#ip">Индивидуальные предприниматели</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=21001">Зарегистрировать</a></li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=24001">Внести изменения</a></li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=26001">Прекратить деятельность</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="mnuIndex_ul" role="button" data-toggle="dropdown"
+                       aria-expanded="false">Юридические лица</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="fw-bolder dropdown-item" href="index.html#ul">Юридические лица</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=11001">Зарегистрировать</a></li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=13014">Внести изменения</a></li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=120XX">Реорганизовать</a></li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=19001">Прекратить</a></li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=15016">Ликвидировать</a></li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=34001">Недостоверность и возражения</a></li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=18002">Редомициляция</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="mnuIndex_ul" role="button" data-toggle="dropdown"
+                       aria-expanded="false">СтартБизнесаОнлайн</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="intro.html?sfrd=21001&mode=bank">Зарегистрировать ИП</a></li>
+                        <li><a class="dropdown-item" href="intro.html?sfrd=11001&mode=bank">Зарегистрировать ООО</a></li>
+                        <li><a class="dropdown-item" href="https://www.nalog.gov.ru/rn77/promo/start/about/" target="_blank">Об эксперименте</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://egrul.nalog.ru/" target="_blank" id="mnuEgrul">Поиск по
+                        ЕГРИП/ЕГРЮЛ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="statistics.html" id="mnuStatistics">Статистика</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html" id="mnuAbout">О сервисе</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="intro-api.html" id="mnuIntroApi">Разработчикам</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="mobile-menu">
+        <div class="container">
+            <div class="text-right">
+                <a href="#" class="close-mobile-menu d-inline-block p-3"><i class="bi bi-x text-white"></i></a>
+            </div>
+            <div class="mb-3">
+                <a href="sign-in.html" class="btn btn-primary" type="button">Войти в личный кабинет</a>
+            </div>
+            <nav class="mb-4 d-flex flex-column">
+                <a href="index.html#ip">Индивидуальные предприниматели</a>
+                <a href="index.html#ul">Юридические лица</a>
+                <div class="my-2 text-white font-weight-bold">СтартБизнесаОнлайн:</div>
+                <div class="ml-4 mb-2 d-flex flex-column">
+                    <a href="intro.html?sfrd=21001&mode=bank">Зарегистрировать ИП</a>
+                    <a href="intro.html?sfrd=11001&mode=bank">Зарегистрировать ООО</a>
+                    <a href="doc/sbo.pdf" target="_blank">Об эксперименте</a>
+                    <a href="http://publication.pravo.gov.ru/document/0001202402130019" target="_blank">Постановление Правительства</a>
+                </div>
+                <a href="https://egrul.nalog.ru/" target="_blank">Поиск по ЕГРИП/ЕГРЮЛ</a>
+                <a href="statistics.html">Статистика</a>
+                <a href="about.html">О сервисе</a>
+                <a href="intro-api.html">Разработчикам</a>
+            </nav>
+            <div class="contact">
+                <p class="mb-0 text-white">Контактный центр</p>
+                <p class="h5 mb-0"><a href="tel:88002222222" class="text-white">8 800 222-22-22</a></p>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container pt-3 pt-lg-5 pb-5">
+            
+
+
+
+
+
+
+<script type="text/javascript">
+    var NEXT_URL = "/gosreg/lk-download.pdf?doc\u003d4464862\u0026file\u003d12536165";
+</script>
+<form id="frmSignIn" action="sign-in-proc.json?c=sign-in_email" method="post">
+    <h3 class="text-center py-3 mb-md-3">Вход в профиль</h3>
+    
+
+
+
+
+
+
+<p class="text-center py-3 mb-md-3">Выберите способ входа</p>
+<ul class="nav nav-tabs nav-tabs-md-vertical justify-content-md-center" id="signInModes">
+    <li class="nav-item"><a class="nav-link gr2-replace-url active">Войти с email и паролем</a></li><li class="nav-item"><a class="nav-link gr2-replace-url" href="sign-in.html?m=cert&nextUrl={nextUrl}">Войти с помощью ЭП</a></li><li class="nav-item"><a class="nav-link gr2-replace-url" href="sign-in.html?m=esia&nextUrl={nextUrl}">Войти через госуслуги (ЕСИА)</a></li>
+</ul>
+
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <article class="py-5">
+                <div class="u3-field u3-field--textedit u3-field--required">
+    
+    <div class="u3-field__input">
+            <input type="email" name="email" maxlength="50" id="email"/>
+        <label for="email"><i18n>Email</i18n></label>
+    </div>
+</div>
+
+                <div class="u3-field u3-field--textedit u3-field--required">
+    
+    <div class="u3-field__input">
+            <input type="password" name="password" maxlength="50" id="password"/>
+        <label for="password"><i18n>Пароль</i18n></label>
+    </div>
+</div>
+
+                <div class="d-sm-flex justify-content-between mb-5">
+                    <div class="u3-checkbox">
+    <input type="checkbox" name="rememberMe" value="1" id="rememberMe"/>
+    <label for="rememberMe"><i18n>Запомнить меня</i18n></label>
+</div>
+
+                    <a class="link-dashed" href="restore-password.html" target="top">Забыли пароль?</a>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Авторизоваться</button>
+                </div>
+            </article>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="my-4">У меня нет учетной записи</p>
+                <a class="btn btn-warning btn-lg" href="sign-up.html" target="_top">Создать учетную запись</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+        </div>
+    </main>
+    
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg d-flex align-items-center">
+                <div class="footer-logo">
+                    <img class="img-fluid" alt="Государственная онлайн-регистрация бизнеса" src="i/fns-logo-footer.svg">
+                </div>
+                <div class="footer-info">
+                    <p class="text-muted mb-0"><strong>Контактный центр ФНС России</strong></p>
+                    <p class="text-muted mb-0"><a class="text-muted" href="tel:88002222222">8 800 222-22-22</a></p>
+                    <p class="mb-0"><a class="ext-primary-50" href="https://www.nalog.gov.ru/rn77/apply_fts/" target="_blank">Все контакты</a></p>
+                </div>
+                <div class="footer-support">
+                    <a href="https://www.nalog.gov.ru/rn77/service/service_feedback/?service=84" target="_blank" class="btn btn-sm btn-light">Техническая поддержка</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="footer-copy-and-social">
+            <div class="row socials">
+                <div class="col-12 col-md">
+                    <div class="footer-copy">
+                        <div class="text-center text-md-left">© 2005 – 2024 ФНС России | Версия 2.10.20</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md d-md-flex justify-content-md-end">
+                    <div class="footer-social d-flex justify-content-center justify-content-md-end">
+                        <a target="_blank" href="https://www.nalog.gov.ru/rn77/apply_fts/">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M 20 22.621 l -3.521 -6.795 c -0.008 0.004 -1.974 0.97 -2.064 1.011 c -2.24 1.086 -6.799 -7.82 -4.609 -8.994 l 2.083 -1.026 l -3.493 -6.817 l -2.106 1.039 c -7.202 3.755 4.233 25.982 11.6 22.615 c 0.121 -0.055 2.102 -1.029 2.11 -1.033 Z" /></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+        <!-- .40 -->
+        <!-- Yandex.Metrika counter --><script type="text/javascript"> (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");ym(23729197, "init", {clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, trackHash:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/23729197" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+    </body>
+</html>
+

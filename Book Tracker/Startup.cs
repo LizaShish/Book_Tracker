@@ -62,9 +62,17 @@ namespace Book_Tracker
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Book}/{action=Index}/{id?}"); // Маршрут по умолчанию (контроллер Book, действие Index)
-            }); //Это значит, что если не указан путь, приложение по умолчанию будет направлено на контроллер Book и его действие Index.
+                   name: "default",
+                   pattern: "{controller=Book}/{action=Index}/{id?}");
+                // Маршрут по умолчанию (контроллер Book, действие Index)
+                //Это значит, что если не указан путь, приложение по умолчанию будет направлено на контроллер Book и его действие Index.
+
+                 endpoints.MapControllerRoute(
+                   name: "authors",
+                   pattern: "{controller=Author}/{action=Index}/{id?}");
+            }); 
+
+
 
             
         }

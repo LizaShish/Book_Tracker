@@ -136,3 +136,53 @@ i.fas.fa-heart, i.fas.fa-heart-broken {
 .d-flex > .btn {
     margin-right: 10px; /* Добавляем небольшой отступ между кнопками */
 }
+.center-align {
+    text-align: center;
+}
+
+
+.go-up {
+    position: fixed; /* Фиксированное позиционирование, чтобы оставаться на месте при прокрутке */
+    bottom: 20px; /* Отступ снизу (можно настроить по необходимости) */
+    right: 20px; /* Отступ справа для размещения кнопки справа */
+    background-color: #007bff; /* Фоновый цвет кнопки */
+    padding: 10px; /* Внутренний отступ для удобства */
+    border-radius: 5px; /* Скруглённые углы */
+    color: #ffffff; /* Цвет текста */
+    text-decoration: none; /* Убираем подчеркивание */
+    font-weight: bold; /* Делаем текст жирным */
+    z-index: 1000; /* Убедитесь, что кнопка отображается поверх других элементов */
+}
+
+    .go-up a {
+        color: #ffffff; /* Цвет текста */
+        text-decoration: none; /* Убираем подчеркивание */
+    }
+
+.pagination-right {
+    text-align: right; /* Выравнивание элементов пагинации вправо */
+    margin-bottom: 20px; /* Отступ снизу для удобства восприятия */
+}
+
+.pagination a {
+    text-decoration: none;
+    margin: 0 5px;
+    font-size: 16px;
+}
+
+.pagination span {
+    font-weight: bold;
+}
+
+.total-books-container {
+    text-align: right; /* Выравнивает текст вправо */
+    display: inline-block; /* Делаем контейнер блочным */
+    width: 100%; /* Задает ширину контейнера, чтобы занимал всю строку */
+}
+
+.total-books {
+    text-decoration: underline; /* Подчеркивание текста */
+    font-weight: bold; /* Жирный шрифт для выделения */
+    color: black;
+    margin-left: 5px; /* Отступ слева для улучшения отображения */
+}

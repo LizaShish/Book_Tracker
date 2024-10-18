@@ -2,98 +2,215 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Book_Tracker.Controllers
 {
     public class BookController : Controller
     {
         private readonly AppDBContext _dbContext;
+        private readonly IWebHostEnvironment _webHostEnvironment; // Инжектируем для работы с файловой системой
 
-        public BookController(AppDBContext dbContext)
+        public BookController(AppDBContext dbContext, IWebHostEnvironment webHostEnvironment)
         {
             _dbContext = dbContext;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        // Действие для отображения избранных книг
+        
         public IActionResult Favorites()
         {
-            // Получаем только книги, которые помечены как избранные
-            var favoriteBooks = _dbContext.Books.Where(b => b.IsFavorite).ToList();
+            
+            var favoriteBooks = _dbContext.Books
+                .Include(b => b.Author)  
+                .Where(b => b.IsFavorite).ToList()
+                .Select(b => new BookDTO
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    IsRead = b.IsRead,
+                    Description = b.Description,
+                    IsFavorite= b.IsFavorite,
+                    AuthorName = b.Author != null ? b.Author.Name : "Автор не указан" 
+                })
+                .ToList();
             return View(favoriteBooks);
         }
 
-        // Действие для пометки книги как "избранной" (через кнопку)
+       
         public IActionResult MarkAsFavorite(int id)
         {
             var book = _dbContext.Books.FirstOrDefault(b => b.Id == id);
             if(book != null)
             {
-                book.IsFavorite = !book.IsFavorite;  // Переключаем статус избранного
+                book.IsFavorite = !book.IsFavorite;  
                 _dbContext.SaveChanges();
             }
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> Index(string searchString, string bookStatus)
-        {
-            // Создаем запрос для выборки всех кни
-            var books = from b in _dbContext.Books
-                        select b;
 
-            // Если строка поиска не пуста, добавляем фильтрацию по названию или автору
-            if (!string.IsNullOrEmpty(searchString))
+        [HttpGet]
+        public IActionResult DownloadFile(int id)
+        {
+            var book = _dbContext.Books.FirstOrDefault(b => b.Id == id);
+            if (book == null || string.IsNullOrEmpty(book.FilePath))
             {
-                books = books.Where(s => s.Title.Contains(searchString) || s.Author.Contains(searchString));
+                return NotFound("Файл не найден или не задан.");
             }
 
-            //Фильтрации по статусу (прочитано/не прочитано)
+            // Абсолютный путь к файлу на сервере
+            var filePath = Directory.GetCurrentDirectory() + "\\wwwroot\\" + book.FilePath;
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound("Файл не найден.");
+            }
+
+            // Получаем MIME-тип файла
+            var contentType = "application/pdf"; // Если только PDF файлы загружаются
+            var fileName = Path.GetFileName(book.FilePath);
+
+            // Возвращаем файл клиенту
+            return PhysicalFile(filePath, contentType, fileName);
+        }
+
+
+        // GET: Book/Index
+        public async Task<IActionResult> Index(string searchString, string bookStatus, int page = 1,  int pageSize = 10 )
+        {
+            if (page < 1)
+            {
+                page = 1; // Обеспечиваем, чтобы номер страницы был не меньше 1
+            }
+            var books = from b in _dbContext.Books.Include(b => b.Author)
+                        orderby b.Id descending
+                        //Переписать методами linq
+                        select new BookDTO
+                        {
+                            Id = b.Id,
+                            Title = b.Title,
+                            IsRead = b.IsRead,
+                            Description = b.Description,
+                            IsFavorite = b.IsFavorite,
+                            AuthorName = b.Author.Name, 
+                            FilePath = b.FilePath 
+
+                        };
+
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(b => b.Title.Contains(searchString) || b.AuthorName.Contains(searchString));
+            }
+
+            
             if (!string.IsNullOrEmpty(bookStatus))
             {
                 if(bookStatus == "Прочитано")
                 {
-                    books=books.Where(b => b.IsRead == true);
+                    books=books.Where(b => b.IsRead);
                 }
                 else if (bookStatus == "Непрочитано")
                 {
-                    books = books.Where(b => b.IsRead == false);
+                    books = books.Where(b => !b.IsRead);
                 }
 
             }
 
-            // Сохраняем текущий фильтр в ViewData, чтобы отобразить его в представлении
-            ViewData["CurrentFilter"] = searchString;
-            ViewData["CurrentFilter"] = bookStatus;
+            var totalBooks = books.Count();
+            var totalPages = (int)Math.Ceiling((double)totalBooks / pageSize);
 
-            return View(await books.ToListAsync());
+            if (page > totalPages && totalPages > 0)
+            {
+                page = totalPages; // Устанавливаем page в значение totalPages, если превышает общее количество страниц
+            }
+
+            var paginatedBooks = await books
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Вычисляем начальный и конечный индекс книг на текущей странице
+            int startBook = (page - 1) * pageSize + 1;
+            int endBook = Math.Min(startBook + pageSize - 1, totalBooks);
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalBooks = totalBooks;
+            ViewBag.StartBook = startBook;
+            ViewBag.EndBook = endBook;
+
+
+            return View(paginatedBooks);
         }
 
         // GET: Book/Create  : отображает форму для добавления книги.
         public IActionResult Create()
         {
-            return View();
+            ViewBag.Authors = _dbContext.Authors.ToList(); 
+            var model = new CreateBookDTO();            
+            return View(model);                         
         }
 
         // POST: Book/Create получает данные из формы и сохраняет новую книгу в базу данных.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Book book)
+        public async Task<IActionResult> Create(CreateBookDTO createBookDTO) 
         {
-            //[Bind]: определяет, какие поля из формы должны быть связаны с моделью Book.
-            //ModelState.IsValid: проверяет, прошла ли форма валидацию.
+           
+            if (createBookDTO.AuthorId == 0 || !_dbContext.Authors.Any(a => a.Id == createBookDTO.AuthorId))
+            {
+                ModelState.AddModelError("AuthorId", "Выберите существующего автора или добавьте нового.");
+            }
+            Console.WriteLine("AuthorId: " + createBookDTO.AuthorId);
+            Console.WriteLine("Title: " + createBookDTO.Title);
+            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                Console.WriteLine(error.ErrorMessage);
+            }
+
             if (ModelState.IsValid)
             {
-                _dbContext.Add(book);
+                var book = new Book
+                {
+                    Title = createBookDTO.Title,
+                    IsRead = createBookDTO.IsRead,
+                    Description = createBookDTO.Description,
+                    AuthorId = createBookDTO.AuthorId,
+                    FilePath = createBookDTO.UploadFile != null ? string.Empty : "placeholder.pdf"
+                };
+
+                
+               if (createBookDTO.UploadFile != null && Path.GetExtension(createBookDTO.UploadFile.FileName).ToLower() == ".pdf")
+                {
+                    var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(createBookDTO.UploadFile.FileName);
+                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                    Directory.CreateDirectory(uploadsFolder);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await createBookDTO.UploadFile.CopyToAsync(fileStream);
+                    }
+
+                    book.FilePath = "/uploads/" + uniqueFileName;
+                }
+               
+                _dbContext.Books.Add(book);
+                _dbContext.Entry(book).State = EntityState.Added;
                 await _dbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(Index)); 
             }
-            return View(book);
+            
+
+            ViewBag.Authors = _dbContext.Authors.ToList();
+            return View(createBookDTO);
+
         }
 
 
-        // GET: Book/Edit/5
-        //Метод редактирования также состоит из двух частей:
-        //GET Edit: загружает данные книги из базы данных по идентификатору (id) и передает их в представление для редактирования.
-        //POST Edit: получает измененные данные из формы и сохраняет их в базу данных.
-
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,57 +218,87 @@ namespace Book_Tracker.Controllers
                 return NotFound();
             }
 
-            var book = await _dbContext.Books.FindAsync(id);
+            var book = await _dbContext.Books
+                .Include(b => b.Author)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
             if (book == null)
             {
                 return NotFound();
             }
-            return View(book);
+           
+
+            var editBookDTO = new EditBookDTO
+            {
+                Id = book.Id,
+                Title = book.Title,
+                IsRead = book.IsRead,
+                Description = book.Description,
+                AuthorId = book.AuthorId,
+            };
+
+            if (!string.IsNullOrEmpty(book.FilePath) && book.FilePath != "placeholder.pdf")
+            {
+                editBookDTO.ExistingFilePath = book.FilePath;
+            }
+
+            ViewBag.Authors = _dbContext.Authors.ToList(); 
+            return View(editBookDTO); 
         }
 
         // POST: Book/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,  Book book)
+        public async Task<IActionResult> Edit(int id, EditBookDTO editBookDTO)
         {
-            if(id !=book.Id)
+            if (id != editBookDTO.Id)
             {
                 return NotFound();
             }
-             if(ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _dbContext.Update(book);
-                    await _dbContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BookExisis(book.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Authors = _dbContext.Authors.ToList();
+                return View(editBookDTO);
             }
-             return View(book);
+
+            var book = await _dbContext.Books.FindAsync(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            book.Title = editBookDTO.Title;
+            book.Description = editBookDTO.Description;
+            book.IsRead = editBookDTO.IsRead;
+            book.AuthorId = editBookDTO.AuthorId;
+            
+
+            
+
+            // Обработка загрузки файла
+            if (editBookDTO.UploadFile != null && editBookDTO.UploadFile.Length > 0 && 
+                Path.GetExtension(editBookDTO.UploadFile.FileName).ToLower() == ".pdf")
+            {
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(editBookDTO.UploadFile.FileName);
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                Directory.CreateDirectory(uploadsFolder);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await editBookDTO.UploadFile.CopyToAsync(fileStream);
+                }
+
+                book.FilePath = "/uploads/" + uniqueFileName;
+            }
+
+            _dbContext.Update(book);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        private bool BookExisis(int id)
-        {
-            return _dbContext.Books.Any(e => e.Id == id);
-        }
-
-
-
-        // GET: Book/Delete/5
-        //GET Delete: отображает информацию о книге, которая будет удалена, для подтверждения.
-        //POST DeleteConfirmed: удаляет книгу из базы данных.
-
+        // GET: Book/Delete/5 - отображает подтверждение удаления книги
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -159,24 +306,49 @@ namespace Book_Tracker.Controllers
                 return NotFound();
             }
 
-            var book = await _dbContext.Books
+            var book = await _dbContext.Books.Include(b => b.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
                 return NotFound();
             }
-            return View(book);
+
+            var deleteBookDTO = new DeleteBookDTO
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Description = book.Description,
+                AuthorId = book.AuthorId,
+            };
+
+            return View(deleteBookDTO);
         }
 
-        // POST: Book/Delete/5
+        // POST: Book/Delete/5 - удаляет книгу
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            var book = await _dbContext.Books.FindAsync(id);
+           
+
+            var book = await _dbContext.Books.FindAsync( id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
             _dbContext.Books.Remove(book);
             await _dbContext.SaveChangesAsync();
+
+            // После удаления перенаправляем на список книг
             return RedirectToAction(nameof(Index));
         }
+
+        private bool BookExists(int id)
+        {
+            return _dbContext.Books.Any(e => e.Id == id);
+        }
+
     }
 }
+

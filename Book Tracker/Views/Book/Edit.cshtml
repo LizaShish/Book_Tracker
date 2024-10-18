@@ -1,33 +1,61 @@
-﻿@model Book_Tracker.Models.Book
+﻿@model Book_Tracker.Models.EditBookDTO
 <div class="container">
     <h1>Редактировать книгу</h1>
     <!-- Форма для редактирования книги, данные автоматически заполнятся из модели -->
-    <form asp-action="Edit">
+   
+    @using (Html.BeginForm("Edit", "Book", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
         <input type="hidden" asp-for="Id" /> <!-- Скрытое поле для ID книги -->
 
         <div class="form-group">
-            <label asp-for="Title"></label>
+            <label asp-for="Title">Название книги</label>
             <input asp-for="Title" class="form-control" />
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
+        <!-- Выбор существующего автора -->
         <div class="form-group">
-            <label asp-for="Author"></label>
-            <input asp-for="Author" class="form-control" />
-            <span asp-validation-for="Author" class="text-danger"></span>
+            <label asp-for="AuthorId">Выбрать существующего автора</label>
+
+            <select asp-for="AuthorId" asp-items="@(new SelectList(ViewBag.Authors, "Id", "Name", Model.AuthorId))" class="form-control">
+                <option value="">--Выбрать автора--</option>
+            </select>
+
+            <span asp-validation-for="AuthorId" class="text-danger"></span>
         </div>
+
+
         <div class="form-group">
-            <label asp-for="IsRead"></label>
+            <label asp-for="IsRead">Прочитано</label>
             <select asp-for="IsRead" class="form-control">
                 <option value="true">Да</option>
                 <option value="false">Нет</option>
             </select>
         </div>
         <div class="form-group">
-            <label asp-for="Description"></label>
+            <label asp-for="Description">Описание</label>
             <textarea asp-for="Description" class="form-control" rows="3"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
+        <!-- Отображение ранее загруженного файла -->
+        @if (!string.IsNullOrEmpty(Model.ExistingFilePath))
+        {
+            <div class="form-group">
+                <label>Файл загружен:</label>
+                <p>
+                    <a href="@Url.Content(Model.ExistingFilePath)" target="_blank">Посмотреть текущий файл</a>
+                </p>
+            </div>
+        }
+        <div>
+            <h1></h1>
+            <h4>Загрузить другой файл книги (PDF)</h4>
+            <input type="file" asp-for="UploadFile" />
+
+        </div>
         <h1></h1>
         <button type="submit" class="btn btn-primary">Сохранить</button>
-    </form>
+        <h1></h1>
+    }
 </div>
+

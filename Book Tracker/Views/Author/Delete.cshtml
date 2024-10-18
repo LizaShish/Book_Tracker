@@ -1,0 +1,15 @@
+﻿@model Book_Tracker.Models.DeleteAuthorDTO
+<div class="container">
+
+    <h1>Удалить автора</h1>
+
+    <h3>Вы действительно хотите удалить этого автора?</h3>
+    <div>
+        <h4>@Model.Name</h4>
+    </div>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </form>

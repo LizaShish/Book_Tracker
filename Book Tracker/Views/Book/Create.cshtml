@@ -1,36 +1,49 @@
-﻿@model Book_Tracker.Models.Book
+﻿@model Book_Tracker.Models.CreateBookDTO
 <div class="container">
     <h1>Добавить новую книгу</h1>
-    <!-- Укажите asp-action, чтобы отправить форму на действие Create контроллера Book -->
-    <form asp-action="Create">
-        <div class="form-group">
-            <label for="Title">Название книги</label>
-            <input type="text" class="form-control" id="Title" name="Title" placeholder="Введите название книги">
-        </div>
-        <div class="form-group">
-            <label for="Author">Автор</label>
-            <input type="text" class="form-control" id="Author" name="Author" placeholder="Введите имя автора">
-        </div>
-        <div class="form-group">
-            <label for="IsRead">Прочитано</label>
-            <select class="form-control" id="IsRead" name="IsRead">
-                <option value="true">Да</option>
-                <option value="false">Нет</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="Description">Описание</label>
-            <textarea class="form-control" id="Description" name="Description" rows="3"></textarea>
-        </div>
-        <h1></h1>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-    </form>
-</div>
+
+     @using (Html.BeginForm("Create", "Book", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+    {
+        <input type="hidden" asp-for="Id" /> <!-- Скрытое поле для ID книги -->
+        <!-- Укажите asp-action, чтобы отправить форму на действие Create контроллера Book -->
+        <form asp-action="Create">
+            <div class="form-group">
+                <label for="Title">Название книги</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuthorId">Выбрать существующего автора</label>
+                <select asp-for="AuthorId" asp-items="@(new SelectList(ViewBag.Authors, "Id", "Name"))" class="form-control">
+                    <option value="">--Выбрать автора--</option>
+                </select>
+                <span asp-validation-for="AuthorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="IsRead">Прочитано</label>
+                <select class="form-control" id="IsRead" name="IsRead">
+                    <option value="true">Да</option>
+                    <option value="false">Нет</option>
+                </select>
+                <span asp-validation-for="IsRead" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Description">Описание</label>
+                <textarea class="form-control" id="Description" name="Description" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div>
+                <h1></h1>
+                <h4>Загрузить файл книги (PDF)</h4>
+                <input type="file" asp-for="UploadFile" />
+
+            </div>
+            <h1></h1>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <h1></h1>
+        </form>
+    }
 
 
-
-     @* asp-validation-for — этот атрибут выводит сообщение об ошибке для конкретного поля, если оно не прошло валидацию. Ошибка будет отображена в теге span, если,
-         например, поле оставлено пустым или не соответствует ограничениям по длине. 
-
-       _ValidationScriptsPartial — подключает скрипты для клиентской валидации, чтобы ошибки могли отображаться на стороне клиента (без отправки формы на сервер).
-     *@
+     

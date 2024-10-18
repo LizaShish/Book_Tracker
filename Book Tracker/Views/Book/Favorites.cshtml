@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Book_Tracker.Models.Book>
+﻿@model IEnumerable<Book_Tracker.Models.BookDTO>
 
     <h2>Избранные книги</h2>
 
@@ -6,8 +6,7 @@
         <thead>
             <tr>
                 <th>Название</th>
-                <th>Автор</th>
-               <th>Прочитано</th>
+                <th>Прочитано</th>
                <th></th>
             </tr>
         </thead>
@@ -16,8 +15,7 @@
             {
                 <tr>
                         <td>@item.Title</td>
-                        <td>@item.Author</td>
-                        <td>@item.IsRead</td>
+                                <td>@(item.IsRead ? "Да" : "Нет")</td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary me-3">Редактировать</a>
                             <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary me-3 ">Удалить</a>

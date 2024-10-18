@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Book>
+<h2>Книги автора</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Автор</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Прочитано</th>
+            
+        </tr>
+    </thead>
+
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td>@book.Author.Name</td>
+            <td>@book.Title</td>
+            <td>@book.Description</td>
+            <td>@(book.IsRead ? "Да" : "Нет")</td>
+            
+        </tr>
+
+    }
+
+</table>
