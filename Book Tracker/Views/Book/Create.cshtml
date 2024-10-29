@@ -5,8 +5,7 @@
      @using (Html.BeginForm("Create", "Book", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
     {
-        <input type="hidden" asp-for="Id" /> <!-- Скрытое поле для ID книги -->
-        <!-- Укажите asp-action, чтобы отправить форму на действие Create контроллера Book -->
+        <input type="hidden" asp-for="Id" />
         <form asp-action="Create">
             <div class="form-group">
                 <label for="Title">Название книги</label>

@@ -14,7 +14,6 @@ namespace Book_Tracker.Repository
             _dbcontext = DBcontext;
         }
 
-
         public IEnumerable<Book> GetAll()
         {
             return _dbcontext.Books.ToList();

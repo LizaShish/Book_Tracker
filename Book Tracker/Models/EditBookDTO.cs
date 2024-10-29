@@ -11,15 +11,8 @@ namespace Book_Tracker.Models
         public int Id { get; set; }
         public bool IsRead { get; set; }
 
-
-        //[DataType(DataType.Date)]
-        //public DateTime? DateRead { get; set; }
-
-
         [StringLength(100, ErrorMessage = "Описание не должно превышать 1000 символов")]
         public string Description { get; set; }
-
-        //public bool IsFavorite { get; set; }
 
         public int AuthorId { get; set; }
 

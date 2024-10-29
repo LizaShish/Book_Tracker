@@ -8,8 +8,6 @@ using Microsoft.Extensions.Configuration;
 
 namespace Book_Tracker
 {
-    //Этот файл отвечает за настройку конфигурации и сервисов приложения,
-    //а также за маршрутизацию. Вот пример итогового файла:
     public class Startup
     {
         public IConfiguration Configuration { get; }
@@ -19,37 +17,32 @@ namespace Book_Tracker
             Configuration = configuration;
         }
 
-        // Метод для регистрации сервисов
         public void ConfigureServices(IServiceCollection services)
         {
-            // Добавляем поддержку MVC и Razor Pages
             services.AddControllersWithViews();
 
-            // Настраиваем подключение к базе данных
             services.AddDbContext<AppDBContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            // Регистрация зависимостей
             services.AddScoped<IRepository<Book>, BookRepository>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-                options.Secure = CookieSecurePolicy.Always;  // Устанавливаем, чтобы cookies передавались только через HTTPS
+                options.Secure = CookieSecurePolicy.Always;  
             });
         }
 
-        // Метод для настройки middleware (среды исполнения запросов)
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage(); // Включение страницы ошибок в режиме разработки
+                app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error"); // Указание страницы для обработки ошибок в продакшн-среде
-                app.UseHsts();  // Использование HTTP Strict Transport Security
+                app.UseExceptionHandler("/Home/Error"); 
+                app.UseHsts();  
             }
 
             app.UseHttpsRedirection(); // Перенаправление HTTP-запросов на HTTPS
@@ -62,19 +55,14 @@ namespace Book_Tracker
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                   name: "default",
-                   pattern: "{controller=Book}/{action=Index}/{id?}");
-                // Маршрут по умолчанию (контроллер Book, действие Index)
-                //Это значит, что если не указан путь, приложение по умолчанию будет направлено на контроллер Book и его действие Index.
+                 name: "default",
+                 pattern: "{controller=Book}/{action=Index}/{id?}");
 
-                 endpoints.MapControllerRoute(
-                   name: "authors",
-                   pattern: "{controller=Author}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                 name: "authors",
+                 pattern: "{controller=Author}/{action=Index}/{id?}");
             }); 
 
-
-
-            
         }
     }
 }

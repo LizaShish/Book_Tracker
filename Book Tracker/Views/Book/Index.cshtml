@@ -1,10 +1,7 @@
 ﻿
 @model IEnumerable<Book_Tracker.Models.BookDTO>
 
-
     <h2>Список книг</h2>
-
-<!-- Форма поиска и фильтрации -->
 
     <form asp-action="Index" method="get">
         <div class="form-group">
@@ -13,12 +10,12 @@
         <h1></h1>
         <button type="submit" class="btn btn-primary">Поиск</button>
 
+    </form>
 
-</form>
-@if (!Model.Any())
-{
-    <p class="text-danger">Книги не найдены по вашему запросу.</p>
-}
+  @if (!Model.Any())
+  {
+     <p class="text-danger">Книги не найдены по вашему запросу.</p>
+  }
 
 <div class="pagination-right">
     @if (ViewBag.CurrentPage > 1)
@@ -42,10 +39,7 @@
         <span><span class="ts">@ViewBag.StartBook</span>–<span class="ts">@ViewBag.EndBook</span></span> из <span class="total-books">@ViewBag.TotalBooks</span>
         </span>
 </div>
-<!--<span> (Всего книг: <span class="total-books">@ViewBag.TotalBooks</span>)</span> 
-<span class="Dj"><span><span class="ts">1</span>–<span class="ts">10</span></span> из <span class="total-books">@ViewBag.TotalBooks</span></span>-->
 
-<!-- Таблица со списком книг -->
     <table class="table m-3">
         <thead>
             <tr>
@@ -87,10 +81,9 @@
                         </a>
                         }
 
-                 </td>
+                </td>
 
-
-               <td>
+                <td>
                     @if (!string.IsNullOrEmpty(item.FilePath) && System.IO.File.Exists(Directory.GetCurrentDirectory() + "\\wwwroot" + item.FilePath))
                     {
                         <a asp-action="DownloadFile" asp-route-id="@item.Id" class="btn btn-success">Скачать</a>
@@ -99,7 +92,7 @@
                     {
                         <button class="btn btn-secondary" disabled>Файл не загружен</button>
                     }
-            </td> 
+                </td> 
             </tr>
         }
         </tbody>
@@ -119,7 +112,6 @@
         <a href="?page=@(ViewBag.CurrentPage + 1)&pageSize=@ViewBag.PageSize" title="Следующая страница"> &#x27A1;</a>
     }
 
-    
     <div class="go-up">
         <a href="#top" title="Наверх">
             <i class="fas fa-arrow-up"></i> Наверх

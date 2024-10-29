@@ -37,7 +37,7 @@
             <textarea asp-for="Description" class="form-control" rows="3"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
-        <!-- Отображение ранее загруженного файла -->
+
         @if (!string.IsNullOrEmpty(Model.ExistingFilePath))
         {
             <div class="form-group">

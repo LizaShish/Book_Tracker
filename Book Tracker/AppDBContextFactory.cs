@@ -10,7 +10,6 @@ public class AppDBContextFactory : IDesignTimeDbContextFactory<AppDBContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDBContext>();
 
-        // Получаем строку подключения из appsettings.json
         IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")

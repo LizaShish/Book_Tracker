@@ -11,8 +11,8 @@ namespace Book_Tracker.Models
         public string Name { get; set; }
 
         [Display(Name = "Дата рождения")]
-        [DataType(DataType.Date)] // Указывает на то, что это поле должно быть отформатировано как дата
-        public DateTime? BirthDate { get; set; } // Поле может быть nullable, если дата необязательна
+        [DataType(DataType.Date)] 
+        public DateTime? BirthDate { get; set; } 
 
         public ICollection<Book> Books { get; set; }
     }
