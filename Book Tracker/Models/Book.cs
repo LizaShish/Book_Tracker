@@ -6,17 +6,13 @@ namespace Book_Tracker.Models
     {
         public int Id { get; set; }
 
-
-        //Атрибуты валидации в квадратных скобках   
-        [Required(ErrorMessage ="Введите название книги")]  // проверяет, что поле обязательно для заполнения.
-        [StringLength(100, ErrorMessage = "Название книги не должно превышать 100 символов")] //задает максимальную и минимальную длину строки.
+        [Required(ErrorMessage ="Введите название книги")]  
+        [StringLength(100, ErrorMessage = "Название книги не должно превышать 100 символов")]
         public string Title { get; set; }
-
 
         public bool IsRead { get; set; }
 
-
-        [DataType(DataType.Date)]  //указывает тип данных для валидации и рендеринга (например, дата, email, телефон).
+        [DataType(DataType.Date)]
         public DateTime? DateRead { get; set; }
 
 
@@ -25,8 +21,6 @@ namespace Book_Tracker.Models
         
         public bool IsFavorite { get; set; }
 
-
-        //Связь с автором (многие к одному)
        [Required(ErrorMessage = "Введите Имя автора")]
        public int AuthorId { get; set; }
 

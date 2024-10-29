@@ -9,7 +9,7 @@ namespace Book_Tracker.Controllers
     public class BookController : Controller
     {
         private readonly AppDBContext _dbContext;
-        private readonly IWebHostEnvironment _webHostEnvironment; // Инжектируем для работы с файловой системой
+        private readonly IWebHostEnvironment _webHostEnvironment; 
 
         public BookController(AppDBContext dbContext, IWebHostEnvironment webHostEnvironment)
         {
@@ -17,10 +17,10 @@ namespace Book_Tracker.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        
+        [HttpGet]
         public IActionResult Favorites()
         {
-            
+
             var favoriteBooks = _dbContext.Books
                 .Include(b => b.Author)  
                 .Where(b => b.IsFavorite).ToList()
@@ -37,7 +37,6 @@ namespace Book_Tracker.Controllers
             return View(favoriteBooks);
         }
 
-       
         public IActionResult MarkAsFavorite(int id)
         {
             var book = _dbContext.Books.FirstOrDefault(b => b.Id == id);
@@ -46,6 +45,7 @@ namespace Book_Tracker.Controllers
                 book.IsFavorite = !book.IsFavorite;  
                 _dbContext.SaveChanges();
             }
+
             return RedirectToAction("Index");
         }
 
@@ -58,32 +58,28 @@ namespace Book_Tracker.Controllers
                 return NotFound("Файл не найден или не задан.");
             }
 
-            // Абсолютный путь к файлу на сервере
             var filePath = Directory.GetCurrentDirectory() + "\\wwwroot\\" + book.FilePath;
             if (!System.IO.File.Exists(filePath))
             {
                 return NotFound("Файл не найден.");
             }
 
-            // Получаем MIME-тип файла
-            var contentType = "application/pdf"; // Если только PDF файлы загружаются
+            var contentType = "application/pdf"; 
             var fileName = Path.GetFileName(book.FilePath);
 
-            // Возвращаем файл клиенту
             return PhysicalFile(filePath, contentType, fileName);
         }
 
-
-        // GET: Book/Index
-        public async Task<IActionResult> Index(string searchString, string bookStatus, int page = 1,  int pageSize = 10 )
+        [HttpGet]
+        public async Task<IActionResult> Index(string searchString, bool? isRead, int page = 1,  int pageSize = 10 )
         {
             if (page < 1)
             {
-                page = 1; // Обеспечиваем, чтобы номер страницы был не меньше 1
+                page = 1; 
             }
             var books = from b in _dbContext.Books.Include(b => b.Author)
                         orderby b.Id descending
-                        //Переписать методами linq
+                       
                         select new BookDTO
                         {
                             Id = b.Id,
@@ -93,26 +89,16 @@ namespace Book_Tracker.Controllers
                             IsFavorite = b.IsFavorite,
                             AuthorName = b.Author.Name, 
                             FilePath = b.FilePath 
-
                         };
-
 
             if (!string.IsNullOrEmpty(searchString))
             {
                 books = books.Where(b => b.Title.Contains(searchString) || b.AuthorName.Contains(searchString));
             }
 
-            
-            if (!string.IsNullOrEmpty(bookStatus))
+            if (isRead.HasValue)
             {
-                if(bookStatus == "Прочитано")
-                {
-                    books=books.Where(b => b.IsRead);
-                }
-                else if (bookStatus == "Непрочитано")
-                {
-                    books = books.Where(b => !b.IsRead);
-                }
+                books = books.Where(b=> b.IsRead == isRead.Value);
 
             }
 
@@ -121,7 +107,7 @@ namespace Book_Tracker.Controllers
 
             if (page > totalPages && totalPages > 0)
             {
-                page = totalPages; // Устанавливаем page в значение totalPages, если превышает общее количество страниц
+                page = totalPages; 
             }
 
             var paginatedBooks = await books
@@ -129,7 +115,6 @@ namespace Book_Tracker.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
-            // Вычисляем начальный и конечный индекс книг на текущей странице
             int startBook = (page - 1) * pageSize + 1;
             int endBook = Math.Min(startBook + pageSize - 1, totalBooks);
 
@@ -140,11 +125,10 @@ namespace Book_Tracker.Controllers
             ViewBag.StartBook = startBook;
             ViewBag.EndBook = endBook;
 
-
             return View(paginatedBooks);
         }
 
-        // GET: Book/Create  : отображает форму для добавления книги.
+        [HttpGet]
         public IActionResult Create()
         {
             ViewBag.Authors = _dbContext.Authors.ToList(); 
@@ -152,7 +136,7 @@ namespace Book_Tracker.Controllers
             return View(model);                         
         }
 
-        // POST: Book/Create получает данные из формы и сохраняет новую книгу в базу данных.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateBookDTO createBookDTO) 
@@ -180,9 +164,8 @@ namespace Book_Tracker.Controllers
                     FilePath = createBookDTO.UploadFile != null ? string.Empty : "placeholder.pdf"
                 };
 
-                
                if (createBookDTO.UploadFile != null && Path.GetExtension(createBookDTO.UploadFile.FileName).ToLower() == ".pdf")
-                {
+               {
                     var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(createBookDTO.UploadFile.FileName);
                     var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
                     Directory.CreateDirectory(uploadsFolder);
@@ -194,7 +177,7 @@ namespace Book_Tracker.Controllers
                     }
 
                     book.FilePath = "/uploads/" + uniqueFileName;
-                }
+               }
                
                 _dbContext.Books.Add(book);
                 _dbContext.Entry(book).State = EntityState.Added;
@@ -203,12 +186,10 @@ namespace Book_Tracker.Controllers
                 return RedirectToAction(nameof(Index)); 
             }
             
-
             ViewBag.Authors = _dbContext.Authors.ToList();
             return View(createBookDTO);
 
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
@@ -227,7 +208,6 @@ namespace Book_Tracker.Controllers
                 return NotFound();
             }
            
-
             var editBookDTO = new EditBookDTO
             {
                 Id = book.Id,
@@ -246,15 +226,11 @@ namespace Book_Tracker.Controllers
             return View(editBookDTO); 
         }
 
-        // POST: Book/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditBookDTO editBookDTO)
         {
-            if (id != editBookDTO.Id)
-            {
-                return NotFound();
-            }
+            
 
             if (!ModelState.IsValid)
             {
@@ -273,9 +249,6 @@ namespace Book_Tracker.Controllers
             book.IsRead = editBookDTO.IsRead;
             book.AuthorId = editBookDTO.AuthorId;
             
-
-            
-
             // Обработка загрузки файла
             if (editBookDTO.UploadFile != null && editBookDTO.UploadFile.Length > 0 && 
                 Path.GetExtension(editBookDTO.UploadFile.FileName).ToLower() == ".pdf")
@@ -298,8 +271,9 @@ namespace Book_Tracker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Book/Delete/5 - отображает подтверждение удаления книги
-        public async Task<IActionResult> Delete(int? id)
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
@@ -324,13 +298,12 @@ namespace Book_Tracker.Controllers
             return View(deleteBookDTO);
         }
 
-        // POST: Book/Delete/5 - удаляет книгу
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
            
-
             var book = await _dbContext.Books.FindAsync( id);
             if (book == null)
             {
@@ -348,7 +321,6 @@ namespace Book_Tracker.Controllers
         {
             return _dbContext.Books.Any(e => e.Id == id);
         }
-
     }
 }
 
